@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Listing Details</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f8f8f8;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+      }
+      h3 {
+        text-align: center;
+        font-size: 2rem;
+        color: #333;
+        margin-bottom: 20px;
+      }
+      ul {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+        width: 100%;
+        max-width: 600px;
+        background-color: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+      }
+      li {
+        font-size: 1rem;
+        color: #555;
+        margin-bottom: 12px;
+      }
+      li:last-child {
+        margin-bottom: 0;
+      }
+      li span {
+        font-weight: bold;
+        color: #333;
+      }
+      .price {
+        font-size: 1.2rem;
+        font-weight: bold;
+        color: #e91e63;
+      }
+      .image {
+        max-width: 100%;
+        margin-top: 20px;
+        border-radius: 8px;
+      }
+    </style>
+  </head>
+  <body>
+    <div>
+      <h3>Listing Details</h3>
+      <ul>
+        <li><span>Title:</span> <%= listing.title %></li>
+        <li><span>Description:</span> <%= listing.description %></li>
+        <li>
+          <span>Price:</span> &#8377; <%= listing.price.toLocaleString("en-IN")
+          %>
+        </li>
+        <li><span>Location:</span> <%= listing.location %></li>
+        <li><span>Country:</span> <%= listing.country %></li>
+        <li><span>Image:</span></li>
+        <img
+          class="image"
+          src="<%= listing.image %>"
+          alt="<%= listing.title %>"
+        />
+      </ul>
+    </div>
+
+    <a href="/listings/<%= listing._id %>/edit">Edit</a>
+
+    <form action="/listings" method="get">
+      <button style="margin: 20px auto; display: block">
+        Back to Listings
+      </button>
+    </form>
+    <form action="/listings/<%= listing._id %>?_method=DELETE" method="POST">
+      <button type="submit">Delete Listing</button>
+    </form>
+  </body>
+</html>
