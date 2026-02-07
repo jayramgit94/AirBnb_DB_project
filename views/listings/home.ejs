@@ -1,0 +1,102 @@
+<% layout("layouts/boilerplate") %>
+
+<section class="hero-section">
+  <div class="hero-content">
+    <p class="hero-eyebrow">Find your next stay</p>
+    <h1 class="hero-title">Discover unique homes and experiences</h1>
+    <p class="hero-subtitle">
+      Browse hand-picked listings, plan your next trip, and book with
+      confidence.
+    </p>
+    <div class="hero-actions">
+      <a href="/listings" class="btn btn-primary hero-btn">Explore listings</a>
+      <% if (currentUser) { %>
+        <a href="/listings/new" class="btn btn-outline-light hero-btn">
+          Host your place
+        </a>
+      <% } else { %>
+        <a href="/auth/login" class="btn btn-outline-light hero-btn">
+          Log in to host
+        </a>
+      <% } %>
+    </div>
+    <% if (!currentUser) { %>
+      <p class="hero-skip">
+        New here? <a href="/auth/signup">Create an account</a> or
+        <a href="/listings">skip for now</a>.
+      </p>
+    <% } %>
+  </div>
+</section>
+
+<section class="container section-space">
+  <div class="row g-4">
+    <div class="col-md-4">
+      <div class="feature-card">
+        <div class="feature-icon"><i class="fa-solid fa-location-dot"></i></div>
+        <h4>Prime locations</h4>
+        <p>Stay near the best sights, food, and culture.</p>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="feature-card">
+        <div class="feature-icon"><i class="fa-solid fa-shield-heart"></i></div>
+        <h4>Trusted hosts</h4>
+        <p>Verified listings with clear details and reviews.</p>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="feature-card">
+        <div class="feature-icon"><i class="fa-solid fa-star"></i></div>
+        <h4>Curated stays</h4>
+        <p>Hand-picked properties for every traveler.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="container section-space">
+  <div class="section-header">
+    <h2>Latest stays</h2>
+    <a href="/listings" class="link-primary">View all</a>
+  </div>
+
+  <% if (listings && listings.length) { %>
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+      <% for (let listing of listings) { %>
+        <div class="col">
+          <div class="card listing-card h-100">
+            <img
+              src="<%= listing.image %>"
+              class="card-img-top listing-image"
+              alt="<%= listing.title %>"
+              loading="lazy"
+              decoding="async"
+              data-fallback="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=80"
+            />
+            <div class="card-body">
+              <h5 class="card-title"><%= listing.title %></h5>
+              <p class="card-location">
+                <i class="fa-solid fa-location-dot"></i>
+                <%= listing.location %>, <%= listing.country %>
+              </p>
+              <p class="card-price">
+                ₹ <%= listing.price.toLocaleString("en-IN") %>
+                <span>/ night</span>
+              </p>
+              <a href="/listings/<%= listing._id %>" class="btn btn-dark w-100">
+                View details
+              </a>
+            </div>
+          </div>
+        </div>
+      <% } %>
+    </div>
+  <% } else { %>
+    <div class="empty-state">
+      <h4>No listings yet</h4>
+      <p>Be the first to add a listing and start hosting today.</p>
+      <a href="/listings/new" class="btn btn-primary">Create a listing</a>
+    </div>
+  <% } %>
+</section>

@@ -1,97 +1,89 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Create Listing</title>
-    <style>
-      body {
-        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-        background-color: #f0f4f8;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-        margin: 0;
-      }
+<% layout("layouts/boilerplate") %>
 
-      form {
-        background-color: #fff;
-        padding: 30px;
-        border-radius: 10px;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-        width: 100%;
-        max-width: 400px;
-      }
+<section class="container section-space">
+  <div class="form-card">
+    <div class="form-card__header">
+      <h2>Create a new listing</h2>
+      <p>Share the details travelers need to book your space.</p>
+    </div>
 
-      h2 {
-        text-align: center;
-        margin-bottom: 20px;
-        color: #333;
-      }
-
-      input[type="text"],
-      input[type="number"] {
-        width: 100%;
-        padding: 10px;
-        margin: 10px 0;
-        border: 1px solid #ccc;
-        border-radius: 6px;
-        font-size: 1rem;
-      }
-
-      input:focus {
-        border-color: #0077ff;
-        outline: none;
-      }
-
-      button {
-        width: 100%;
-        padding: 10px;
-        background-color: #0077ff;
-        color: white;
-        font-size: 1rem;
-        border: none;
-        border-radius: 6px;
-        cursor: pointer;
-        margin-top: 10px;
-        transition: background-color 0.3s;
-      }
-
-      button:hover {
-        background-color: #005dc1;
-      }
-    </style>
-  </head>
-  <body>
-    <form action="/listings" method="post">
-      <h2>Create New Listing</h2>
-      <input name="title" placeholder="Enter title" required /><br />
-      <input
-        name="description"
-        placeholder="Enter description"
-        required
-      /><br />
-      <input type="text" name="image" placeholder="Image URL" /><br />
-      <input
-        type="number"
-        name="price"
-        placeholder="Enter price"
-        required
-      /><br />
-      <input
-        type="text"
-        name="location"
-        placeholder="Enter location"
-        required
-      /><br />
-      <input
-        type="text"
-        name="country"
-        placeholder="Enter country"
-        required
-      /><br />
-      <button type="submit">Submit</button>
+    <form action="/listings" method="post" class="needs-validation" novalidate>
+      <div class="mb-3">
+        <label for="title" class="form-label">Title</label>
+        <input
+          type="text"
+          name="title"
+          id="title"
+          required
+          placeholder="Luxury apartment in downtown"
+          class="form-control"
+        />
+        <div class="invalid-feedback">Title is required.</div>
+      </div>
+      <div class="mb-3">
+        <label for="description" class="form-label">Description</label>
+        <textarea
+          name="description"
+          id="description"
+          required
+          placeholder="Tell guests what makes this place special."
+          class="form-control"
+          rows="4"
+        ></textarea>
+        <div class="invalid-feedback">Please enter a description.</div>
+      </div>
+      <div class="mb-3">
+        <label for="image" class="form-label">Image URL</label>
+        <input
+          type="text"
+          name="image"
+          id="image"
+          placeholder="https://example.com/photo.jpg"
+          class="form-control"
+        />
+      </div>
+      <div class="row">
+        <div class="mb-3 col-md-4">
+          <label for="price" class="form-label">Price per night (₹)</label>
+          <input
+            name="price"
+            id="price"
+            required
+            placeholder="2500"
+            class="form-control"
+            type="number"
+            min="1"
+          />
+          <div class="invalid-feedback">Price is required.</div>
+        </div>
+        <div class="mb-3 col-md-8">
+          <label for="location" class="form-label">Location</label>
+          <input
+            type="text"
+            name="location"
+            id="location"
+            required
+            placeholder="Mumbai"
+            class="form-control"
+          />
+          <div class="invalid-feedback">Location is required.</div>
+        </div>
+      </div>
+      <div class="mb-4">
+        <label for="country" class="form-label">Country</label>
+        <input
+          type="text"
+          name="country"
+          id="country"
+          required
+          placeholder="India"
+          class="form-control"
+        />
+        <div class="invalid-feedback">Country is required.</div>
+      </div>
+      <button type="submit" class="btn btn-primary w-100">
+        Create listing
+      </button>
     </form>
-  </body>
-</html>
+  </div>
+</section>

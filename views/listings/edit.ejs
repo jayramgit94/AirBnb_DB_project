@@ -1,86 +1,120 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Edit Listing</title>
-    <style>
-      body {
-        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-        background-color: #f0f4f8;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-        margin: 0;
-      }
+<% layout("layouts/boilerplate") %>
 
-      form {
-        background-color: #fff;
-        padding: 30px;
-        border-radius: 10px;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-        width: 100%;
-        max-width: 400px;
-      }
+<section class="container section-space">
+  <div class="form-card">
+    <div class="form-card__header">
+      <h2>Edit listing</h2>
+      <p>Update details to keep your listing fresh and accurate.</p>
+    </div>
 
-      h2 {
-        text-align: center;
-        margin-bottom: 20px;
-        color: #333;
-      }
+    <form
+      action="/listings/<%= listing._id %>?_method=PUT"
+      method="POST"
+      class="needs-validation"
+      novalidate
+    >
+      <div class="mb-3">
+        <label for="title" class="form-label">Title</label>
+        <input
+          type="text"
+          class="form-control"
+          id="title"
+          name="title"
+          value="<%= listing.title %>"
+          required
+        />
+        <div class="invalid-feedback">Title is required.</div>
+      </div>
 
-      input[type="text"],
-      input[type="number"] {
-        width: 100%;
-        padding: 10px;
-        margin: 10px 0;
-        border: 1px solid #ccc;
-        border-radius: 6px;
-        font-size: 1rem;
-      }
+      <div class="mb-3">
+        <label for="description" class="form-label">Description</label>
+        <textarea
+          class="form-control"
+          id="description"
+          name="description"
+          rows="4"
+          required
+        >
+<%= listing.description %></textarea
+        >
+        <div class="invalid-feedback">Description is required.</div>
+      </div>
 
-      input:focus {
-        border-color: #0077ff;
-        outline: none;
-      }
+      <div class="row">
+        <div class="mb-3 col-md-4">
+          <label for="price" class="form-label">Price per night (₹)</label>
+          <input
+            type="number"
+            class="form-control"
+            id="price"
+            name="price"
+            value="<%= listing.price %>"
+            required
+            min="1"
+          />
+          <div class="invalid-feedback">Price is required.</div>
+        </div>
+        <div class="mb-3 col-md-4">
+          <label for="country" class="form-label">Country</label>
+          <input
+            type="text"
+            class="form-control"
+            id="country"
+            name="country"
+            value="<%= listing.country %>"
+            required
+          />
+          <div class="invalid-feedback">Country is required.</div>
+        </div>
+      </div>
 
-      button {
-        width: 100%;
-        padding: 10px;
-        background-color: #0077ff;
-        color: white;
-        font-size: 1rem;
-        border: none;
-        border-radius: 6px;
-        cursor: pointer;
-        margin-top: 10px;
-        transition: background-color 0.3s;
-      }
+      <div class="mb-3">
+        <label for="location" class="form-label">Location</label>
+        <input
+          type="text"
+          class="form-control"
+          id="location"
+          name="location"
+          value="<%= listing.location %>"
+          required
+        />
+        <div class="invalid-feedback">Location is required.</div>
+      </div>
 
-      button:hover {
-        background-color: #005dc1;
-      }
-    </style>
-  </head>
-  <body>
-    <form action="/listings/<%= listing._id %>" method="POST">
-      <h2>Edit a Listing</h2>
-      <input type="text" name="title" value="<%= listing.title %>" /><br />
-      <input
-        type="text"
-        name="description"
-        value="<%= listing.description %>"
-      /><br />
-      <input type="text" name="image" value="<%= listing.image %>" /><br />
-      <input type="number" name="price" value="<%= listing.price %>" /><br />
-      <input
-        type="text"
-        name="location"
-        value="<%= listing.location %>"
-      /><br />
-      <input type="text" name="country" value="<%= listing.country %>" /><br />
-      <button type="submit">Update</button>
+      <div class="mb-4">
+        <label for="image" class="form-label">Image URL</label>
+        <input
+          type="text"
+          class="form-control"
+          id="image"
+          name="image"
+          value="<%= listing.image %>"
+          required
+        />
+        <div class="invalid-feedback">Image URL is required.</div>
+      </div>
+
+      <button type="submit" class="btn btn-primary w-100">Save changes</button>
     </form>
-  </body>
-</html>
+  </div>
+</section>
+<script>
+  // Bootstrap validation
+  (() => {
+    "use strict";
+    const forms = document.querySelectorAll(".needs-validation");
+    Array.from(forms).forEach((form) => {
+      form.addEventListener(
+        "submit",
+        (event) => {
+          if (!form.checkValidity()) {
+            event.preventDefault();
+            event.stopPropagation();
+          }
+          form.classList.add("was-validated");
+        },
+        false,
+      );
+    });
+  })();
+</script>

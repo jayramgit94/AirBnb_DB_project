@@ -1,91 +1,97 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Listing Details</title>
-    <style>
-      body {
-        font-family: Arial, sans-serif;
-        background-color: #f8f8f8;
-        margin: 0;
-        padding: 0;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-      }
-      h3 {
-        text-align: center;
-        font-size: 2rem;
-        color: #333;
-        margin-bottom: 20px;
-      }
-      ul {
-        list-style-type: none;
-        padding: 0;
-        margin: 0;
-        width: 100%;
-        max-width: 600px;
-        background-color: white;
-        border-radius: 8px;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-        padding: 20px;
-      }
-      li {
-        font-size: 1rem;
-        color: #555;
-        margin-bottom: 12px;
-      }
-      li:last-child {
-        margin-bottom: 0;
-      }
-      li span {
-        font-weight: bold;
-        color: #333;
-      }
-      .price {
-        font-size: 1.2rem;
-        font-weight: bold;
-        color: #e91e63;
-      }
-      .image {
-        max-width: 100%;
-        margin-top: 20px;
-        border-radius: 8px;
-      }
-    </style>
-  </head>
-  <body>
-    <div>
-      <h3>Listing Details</h3>
-      <ul>
-        <li><span>Title:</span> <%= listing.title %></li>
-        <li><span>Description:</span> <%= listing.description %></li>
-        <li>
-          <span>Price:</span> &#8377; <%= listing.price.toLocaleString("en-IN")
-          %>
-        </li>
-        <li><span>Location:</span> <%= listing.location %></li>
-        <li><span>Country:</span> <%= listing.country %></li>
-        <li><span>Image:</span></li>
-        <img
-          class="image"
-          src="<%= listing.image %>"
-          alt="<%= listing.title %>"
-        />
-      </ul>
+<% layout("layouts/boilerplate") %>
+
+<div class="container my-5">
+  <div class="row">
+    <div class="col-8 offset-2">
+      <h3 class="mb-4"><strong><%= listing.title %></strong></h3>
     </div>
+  </div>
 
-    <a href="/listings/<%= listing._id %>/edit">Edit</a>
+  <div class="row">
+    <div class="card col-8 offset-2 p-0 shadow-sm">
+      <img
+        src="<%= listing.image %>"
+        class="card-img-top show-img"
+        alt="listing image"
+        style="object-fit: cover; max-height: 400px"
+      />
+      <div class="card-body">
+        <h4 class="card-title mb-3"></h4>
+        <ul class="list-unstyled">
+          <li><strong>Description:</strong> <%= listing.description %></li>
+          <li>
+            <strong>Price:</strong> ₹ <%= listing.price.toLocaleString("en-IN")
+            %>
+          </li>
+          <% layout("layouts/boilerplate") %>
 
-    <form action="/listings" method="get">
-      <button style="margin: 20px auto; display: block">
-        Back to Listings
-      </button>
-    </form>
-    <form action="/listings/<%= listing._id %>?_method=DELETE" method="POST">
-      <button type="submit">Delete Listing</button>
-    </form>
-  </body>
-</html>
+          <section class="container section-space">
+            <div class="listing-detail">
+              <div class="listing-detail__header">
+                <div>
+                  <p class="listing-eyebrow">Listing details</p>
+                  <h2><%= listing.title %></h2>
+                  <p class="listing-location">
+                    <i class="fa-solid fa-location-dot"></i>
+                    <%= listing.location %>, <%= listing.country %>
+                  </p>
+                </div>
+                <div class="listing-actions">
+                  <a href="/listings/<%= listing._id %>/edit" class="btn btn-outline-dark">
+                    Edit listing
+                  </a>
+                  <form
+                    action="/listings/<%= listing._id %>?_method=DELETE"
+                    method="POST"
+                  >
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                  </form>
+                </div>
+              </div>
+
+              <div class="listing-detail__media">
+                <img
+                  src="<%= listing.image %>"
+                  alt="<%= listing.title %>"
+                  loading="lazy"
+                  decoding="async"
+                  class="listing-image"
+                  data-fallback="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=80"
+                />
+              </div>
+
+              <div class="listing-detail__body">
+                <div class="listing-summary">
+                  <h4>About this stay</h4>
+                  <p><%= listing.description %></p>
+                </div>
+                <div class="listing-meta">
+                  <div>
+                    <span class="meta-label">Price</span>
+                    <span class="meta-value">
+                      ₹ <%= listing.price.toLocaleString("en-IN") %> / night
+                    </span>
+                  </div>
+                  <div>
+                    <span class="meta-label">Location</span>
+                    <span class="meta-value"><%= listing.location %></span>
+                  </div>
+                  <div>
+                    <span class="meta-label">Country</span>
+                    <span class="meta-value"><%= listing.country %></span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="listing-detail__review">
+                <div class="review-card">
+                  <h4>Reviews (coming soon)</h4>
+                  <p>Review submissions will be enabled in the next release.</p>
+                  <button class="btn btn-outline-secondary" disabled>
+                    Leave a review
+                  </button>
+                </div>
+              </div>
+            </div>
+          </section>
+                      </a>

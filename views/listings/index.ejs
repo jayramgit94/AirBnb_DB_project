@@ -1,77 +1,102 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>airbn</title>
-    <style>
-      body {
-        font-family: Arial, sans-serif;
-        background-color: #f4f4f4;
-        margin: 0;
-        padding: 0;
-      }
-      h1 {
-        text-align: center;
-        margin-top: 20px;
-      }
-      .listings {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-        gap: 20px;
-        padding: 20px;
-      }
-      .listing {
-        background-color: white;
-        border: 1px solid #ddd;
-        border-radius: 8px;
-        padding: 20px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-      }
-      .listing img {
-        width: 100%;
-        height: auto;
-        border-radius: 8px;
-        margin-bottom: 10px;
-      }
-      .listing h2 {
-        font-size: 1.5rem;
-        color: #333;
-      }
-      .listing p {
-        color: #555;
-      }
-      .listing p.price {
-        font-weight: bold;
-        color: #333;
-      }
-      .listing p.location {
-        font-style: italic;
-        color: #777;
-      }
-    </style>
-  </head>
-  <body>
-    <h1>Welcome to Airbnb</h1>
-    <form method="get" action="/listings/new">
-      <button style="margin: 20px auto; display: block">
-        create a new listing
-      </button>
-    </form>
-    <p style="text-align: center">Explore our listings below:</p>
-    <div class="listings">
+<!-- <style>
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+  }
+  h1 {
+    text-align: center;
+    margin-top: 20px;
+  }
+  .listings {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+    padding: 20px;
+  }
+  .listing {
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  .listing img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin-bottom: 10px;
+  }
+  .listing h2 {
+    font-size: 1.5rem;
+    color: #333;
+  }
+  .listing p {
+    color: #555;
+  }
+  .listing p.price {
+    font-weight: bold;
+    color: #333;
+  }
+  .listing p.location {
+    font-style: italic;
+    color: #777;
+  }
+</style> -->
+
+<% layout("layouts/boilerplate") %>
+
+<section class="container section-space">
+  <div class="section-header">
+    <div>
+      <h2>All listings</h2>
+      <p class="section-subtitle">Browse every place available right now.</p>
+    </div>
+    <% if (currentUser) { %>
+      <a href="/listings/new" class="btn btn-primary">Add a listing</a>
+    <% } else { %>
+      <a href="/auth/login" class="btn btn-outline-dark">Log in to host</a>
+    <% } %>
+  </div>
+
+  <% if (listings && listings.length) { %>
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
       <% for (let listing of listings) { %>
-      <div class="listing">
-        <img src="<%= listing.image %>" alt="<%= listing.title %>" />
-        <h2><a href="/listings/<%= listing._id %>"><%= listing.title %></a></h2>
-        <p><%= listing.description %></p>
-        <li>
-          <span>Price:</span> &#8377; <%= listing.price.toLocaleString("en-IN")
-          %>
-        </li>
-        <p class="location">Location: <%= listing.location %></p>
-      </div>
+        <div class="col">
+          <div class="card listing-card h-100">
+            <img
+              src="<%= listing.image %>"
+              class="card-img-top listing-image"
+              alt="<%= listing.title %>"
+              loading="lazy"
+              decoding="async"
+              data-fallback="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=80"
+            />
+            <div class="card-body">
+              <h5 class="card-title"><%= listing.title %></h5>
+              <p class="card-location">
+                <i class="fa-solid fa-location-dot"></i>
+                <%= listing.location %>, <%= listing.country %>
+              </p>
+              <p class="card-price">
+                ₹ <%= listing.price.toLocaleString("en-IN") %>
+                <span>/ night</span>
+              </p>
+              <p class="card-text"><%= listing.description %></p>
+              <a href="/listings/<%= listing._id %>" class="btn btn-outline-dark">
+                View details
+              </a>
+            </div>
+          </div>
+        </div>
       <% } %>
     </div>
-  </body>
-</html>
+  <% } else { %>
+    <div class="empty-state">
+      <h4>No listings yet</h4>
+      <p>Get started by creating your first listing.</p>
+      <a href="/listings/new" class="btn btn-primary">Create a listing</a>
+    </div>
+  <% } %>
+</section>

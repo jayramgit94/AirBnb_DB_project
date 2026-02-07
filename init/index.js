@@ -11,7 +11,7 @@ async function main() {
 
 const initDB = async () => {
   try {
-    await Listing.deleteMany({});
+    await Listing.deleteMany({});//purane data ko delte kr diay and now inserting new dtaa inthis 
     await Listing.insertMany(sampleData.data); // 👈 access `.data`
     console.log("Database seeded successfully.");
   } catch (err) {
@@ -21,4 +21,4 @@ const initDB = async () => {
   }
 };
 
-main().then(initDB);
+main().then(initDB); 

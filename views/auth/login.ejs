@@ -1,0 +1,54 @@
+<% layout("layouts/boilerplate") %>
+
+<section class="container section-space">
+  <div class="auth-card">
+    <div class="auth-card__header">
+      <h2>Welcome back</h2>
+      <p>Log in to manage your listings and bookings.</p>
+    </div>
+
+    <% if (message) { %>
+      <div class="auth-message"><%= message %></div>
+    <% } %>
+
+    <% if (error) { %>
+      <div class="auth-error"><%= error %></div>
+    <% } %>
+
+    <form action="/auth/login" method="post" class="needs-validation" novalidate>
+      <div class="mb-3">
+        <label for="email" class="form-label">Email</label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          class="form-control"
+          placeholder="you@example.com"
+          required
+        />
+        <div class="invalid-feedback">Email is required.</div>
+      </div>
+      <div class="mb-4">
+        <label for="password" class="form-label">Password</label>
+        <input
+          type="password"
+          id="password"
+          name="password"
+          class="form-control"
+          placeholder="Enter your password"
+          required
+        />
+        <div class="invalid-feedback">Password is required.</div>
+      </div>
+      <button type="submit" class="btn btn-primary w-100">Log in</button>
+    </form>
+
+    <div class="auth-footer">
+      <span>New here?</span>
+      <a href="/auth/signup">Create an account</a>
+    </div>
+    <div class="auth-skip">
+      <a href="/listings">Skip for now</a>
+    </div>
+  </div>
+</section>
