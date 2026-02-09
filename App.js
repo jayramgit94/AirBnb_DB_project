@@ -13,6 +13,7 @@ const bcrypt = require("bcrypt");
 const helmet = require("helmet");
 const compression = require("compression");
 const rateLimit = require("express-rate-limit");
+const morgan = require("morgan");
 
 require("dotenv").config();
 
@@ -76,6 +77,15 @@ app.use((req, res, next) => {
   res.locals.currentUsername = req.session.username || null;
   next();
 });
+
+morgan.token("user", (req) => req.session?.username || "guest");
+morgan.token("session", (req) => req.session?.userId || "-");
+
+app.use(
+  morgan(
+    ":method :url :status :res[content-length] - :response-time ms user=:user session=:session",
+  ),
+);
 
 // Connect to MongoDB
 async function main() {

@@ -2,7 +2,13 @@ const mongoose = require("mongoose");
 const sampleData = require("./data.js");
 const Listing = require("../models/listing.js");
 
-const MONGO_URL = "mongodb://127.0.0.1:27017/airbnb";
+require("dotenv").config();
+
+const MONGO_URL = process.env.MONGO_URL;
+
+if (!MONGO_URL) {
+  throw new Error("Missing MONGO_URL in environment.");
+}
 
 async function main() {
   await mongoose.connect(MONGO_URL);
@@ -11,7 +17,7 @@ async function main() {
 
 const initDB = async () => {
   try {
-    await Listing.deleteMany({});//purane data ko delte kr diay and now inserting new dtaa inthis 
+    await Listing.deleteMany({}); // clear existing data before seeding
     await Listing.insertMany(sampleData.data); // 👈 access `.data`
     console.log("Database seeded successfully.");
   } catch (err) {
@@ -21,4 +27,4 @@ const initDB = async () => {
   }
 };
 
-main().then(initDB); 
+main().then(initDB);
